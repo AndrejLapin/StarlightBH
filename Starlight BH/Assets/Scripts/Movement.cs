@@ -1,20 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 10f;
-    static const string HORIZONTAL_AXIS_NAME = "Horizontal";
-    static const string VERTICAL_AXIS_NAME = "Vertical";
-
-    RigidBody2D myRigidBody;
+    const string HORIZONTAL_AXIS_NAME = "Horizontal";
+    const string VERTICAL_AXIS_NAME = "Vertical";
+    [SerializeField] float maxMoveSpeed = 20f;
+    [SerializeField] float acceleration = 0.8f;
+    /*[SerializeField]*/ float moveSpeed = 0f;
+    Rigidbody myRigidBody;
 
     // Start is called before the first frame update
     void Start()
     {
-        myRigidBody = GetComponent<Rigidbody2D>();
+        myRigidBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class Movement : MonoBehaviour
         
     }
 
-    // frame rate independant update
+    // framerate independant update
     void FixedUpdate()
     {
         Move();
@@ -31,11 +31,43 @@ public class Movement : MonoBehaviour
 
     void Move()
     {
-        float horizontalThrow = CrossPlatformInputManager.GetAxis(HORIZONTAL_AXIS_NAME);
-        float verticalThrow = CrossPlatformInputManager.GetAxis(VERTICAL_AXIS_NAME);
+        float horizontalThrow = Input.GetAxisRaw(HORIZONTAL_AXIS_NAME);
+        float verticalThrow = Input.GetAxisRaw(VERTICAL_AXIS_NAME);
+        float hypothenuse = Mathf.Sqrt(horizontalThrow * horizontalThrow + verticalThrow * verticalThrow);
 
-        Vector3 playerVelocity = new Vector3(horizontalThrow * moveSpeed, 0, verticalThrow * moveSpeed); // need to get absolute vector
+        float horizontalVelocity;
+        float verticalVelocity;
+
+        if(hypothenuse != 0)
+        {
+            moveSpeed += acceleration;
+            if(moveSpeed > maxMoveSpeed) moveSpeed = maxMoveSpeed;
+        }
+        else
+        {
+            moveSpeed -= acceleration;
+            if(moveSpeed < 0) moveSpeed = 0;
+        }
         
+        if(horizontalThrow != 0)
+        {
+            horizontalVelocity = horizontalThrow / hypothenuse * moveSpeed;
+        }
+        else
+        {
+            horizontalVelocity = myRigidBody.velocity.x * acceleration * acceleration;
+        }
+
+        if(verticalThrow != 0)
+        {
+            verticalVelocity = verticalThrow / hypothenuse * moveSpeed;
+        }
+        else
+        {
+            verticalVelocity = myRigidBody.velocity.z * acceleration * acceleration;
+        }
+
+        Vector3 playerVelocity = new Vector3(horizontalVelocity, 0, verticalVelocity);
         myRigidBody.velocity = playerVelocity;
     }
 }
