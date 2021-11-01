@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 107356378481453914}
   - component: {fileID: 2563236493291540148}
   - component: {fileID: 2141670443117118621}
-  - component: {fileID: 4813689102222364175}
   m_Layer: 7
-  m_Name: Projectile
+  m_Name: IceProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,19 +63,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!65 &4813689102222364175
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107356378481453915}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.3, z: 0.3}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &687253941206985135
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,7 +74,8 @@ GameObject:
   - component: {fileID: 3781873674633865250}
   - component: {fileID: 2653049921288581052}
   - component: {fileID: 4217899187817455997}
-  m_Layer: 0
+  - component: {fileID: 5341926027798980158}
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +91,7 @@ Transform:
   m_GameObject: {fileID: 687253941206985135}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.44209144, y: 0.44209144, z: 0.44209144}
+  m_LocalScale: {x: 0.44209144, y: 0.44209144, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 107356378481453914}
@@ -138,7 +125,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 56788217984fbf1409f4034c310166bd, type: 2}
+  - {fileID: 2100000, guid: 04979b2cbbb71c04d8c6f534a742e15f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -160,3 +147,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5341926027798980158
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687253941206985135}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7, y: 0.7, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0}

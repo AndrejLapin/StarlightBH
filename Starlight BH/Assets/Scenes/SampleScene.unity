@@ -2577,7 +2577,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23430
+  m_Name: pb_Mesh23432
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2790,6 +2790,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6289953321498325609, guid: 762bf17f97f96cc419f7bc5ec08e1d44, type: 3}
+      propertyPath: weaponArray.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6289953321498325609, guid: 762bf17f97f96cc419f7bc5ec08e1d44, type: 3}
+      propertyPath: weaponArray.Array.data[0]
+      value: 
+      objectReference: {fileID: 524260548853906996, guid: 8fc46dbace963154cbcf8d9b27034c6a, type: 3}
+    - target: {fileID: 6289953321498325609, guid: 762bf17f97f96cc419f7bc5ec08e1d44, type: 3}
+      propertyPath: weaponArray.Array.data[1]
+      value: 
+      objectReference: {fileID: 524260548853906996, guid: 8d4f310a8dc4d6f49b1d1a8da9d7047e, type: 3}
+    - target: {fileID: 6289953321498325609, guid: 762bf17f97f96cc419f7bc5ec08e1d44, type: 3}
+      propertyPath: weaponArray.Array.data[2]
+      value: 
+      objectReference: {fileID: 524260548853906996, guid: 8a8dcd636b8c3824aa189a3abeb31f48, type: 3}
+    - target: {fileID: 6289953321498325609, guid: 762bf17f97f96cc419f7bc5ec08e1d44, type: 3}
+      propertyPath: weaponArray.Array.data[3]
+      value: 
+      objectReference: {fileID: 524260548853906996, guid: 2eb1de7fc70c2c14b986f51c0f7671ce, type: 3}
     - target: {fileID: 6816762813296708503, guid: 762bf17f97f96cc419f7bc5ec08e1d44, type: 3}
       propertyPath: m_Constraints
       value: 116

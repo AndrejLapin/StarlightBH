@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] Projectile projectilePrefab; // should probably be a projectile with its own properties and behaviour
+    [SerializeField] Projectile[] projectilePrefab; // should probably be a projectile with its own properties and behaviour
     [SerializeField] float damage = 10f;
     [SerializeField] float projectileSpeed = 15f;
     [SerializeField] float shotDelay = 0.5f;
@@ -14,20 +14,17 @@ public class Weapon : MonoBehaviour
     [SerializeField] float accuracyConeRadius = 15f;
     [SerializeField] bool evenSpread = false;
 
+    float spreadStep = 0f;
     float timeAfterLastShot;
     float timeAfterBurst;
     int burstShotsFired;
     Quaternion gunRotation;
-
     Player myPlayer;
 
     // Start is called before the first frame update
     void Start()
     {
-        myPlayer = gameObject.GetComponentInParent(typeof(Player)) as Player;
-        timeAfterLastShot = shotDelay;
-        timeAfterBurst = burstDelay;
-        burstShotsFired = shotsPerBurst;
+        
     }
 
     // Update is called once per frame
@@ -49,9 +46,9 @@ public class Weapon : MonoBehaviour
             timeAfterBurst += Time.deltaTime;
         }
 
-        if(shotsPerBurst > 1 && timeAfterBurst >= burstDelay)
+        if(shotsPerBurst > 1 && timeAfterBurst >= burstDelay && burstShotsFired < shotsPerBurst)
         {
-
+            LaunchProjectiles();
         }
     }
 
@@ -60,6 +57,7 @@ public class Weapon : MonoBehaviour
         if(timeAfterLastShot >= shotDelay)
         {
             gunRotation = Quaternion.LookRotation(direction, Vector3.up);
+            burstShotsFired = 0;
 
             LaunchProjectiles();
             
@@ -67,15 +65,36 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    public void InitWeapon(Player player)
+    {
+        myPlayer = player;
+        timeAfterLastShot = shotDelay;
+        timeAfterBurst = burstDelay;
+        burstShotsFired = shotsPerBurst;
+
+        if(evenSpread)
+        {
+            spreadStep = accuracyConeRadius * 2 / (projectileCount-1);
+        }
+    }
+
     void LaunchProjectiles()
     {
-        for(int iterator = 1; iterator <= projectileCount; iterator++)
-            {
-                Projectile gunProjectile = Instantiate(projectilePrefab, myPlayer.GetPlayerPosition(), gunRotation) as Projectile;
+        for(int iterator = 0; iterator < projectileCount; iterator++)
+        {
+                Projectile gunProjectile = Instantiate(projectilePrefab[iterator % projectilePrefab.Length], myPlayer.GetPlayerPosition(), gunRotation) as Projectile;
                 Rigidbody projectileRigidBody = gunProjectile.GetComponent<Rigidbody>();
-                projectileRigidBody.transform.rotation *= Quaternion.Euler(0, Random.Range(-accuracyConeRadius, accuracyConeRadius), 0); 
+                if(evenSpread)
+                {
+                    projectileRigidBody.transform.rotation *= Quaternion.Euler(0, iterator * spreadStep - accuracyConeRadius, 0); 
+                }
+                else
+                {
+                    projectileRigidBody.transform.rotation *= Quaternion.Euler(0, Random.Range(-accuracyConeRadius, accuracyConeRadius), 0); 
+                }
                 projectileRigidBody.velocity = projectileRigidBody.transform.forward * projectileSpeed;
-                timeAfterBurst = 0;
-            }
+        }
+        timeAfterBurst = 0;
+        burstShotsFired++;
     }
 }
