@@ -5,8 +5,9 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [SerializeField] Projectile[] projectilePrefab; // should probably be a projectile with its own properties and behaviour
-    [SerializeField] float damage = 10f;
+    [SerializeField] float damage = 10f; // if damage is 0 then projectile damage wont be modified
     [SerializeField] float projectileSpeed = 15f;
+    [SerializeField] float projectileLifetime = 0f; // if life time is 0 then projectile life time will not be modified
     [SerializeField] float shotDelay = 0.5f;
     [SerializeField] int projectileCount = 1; // in one shot
     [SerializeField] int shotsPerBurst = 2;
@@ -19,7 +20,12 @@ public class Weapon : MonoBehaviour
     float timeAfterBurst;
     int burstShotsFired;
     Quaternion gunRotation;
-    Player myPlayer;
+    GameObject myUser;
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -65,9 +71,9 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void InitWeapon(Player player)
+    public void InitWeapon(GameObject weaponUser)
     {
-        myPlayer = player;
+        myUser = weaponUser;
         timeAfterLastShot = shotDelay;
         timeAfterBurst = burstDelay;
         burstShotsFired = shotsPerBurst;
@@ -82,7 +88,15 @@ public class Weapon : MonoBehaviour
     {
         for(int iterator = 0; iterator < projectileCount; iterator++)
         {
-                Projectile gunProjectile = Instantiate(projectilePrefab[iterator % projectilePrefab.Length], myPlayer.GetPlayerPosition(), gunRotation) as Projectile;
+                Projectile gunProjectile = Instantiate(projectilePrefab[iterator % projectilePrefab.Length], myUser.transform.position, gunRotation) as Projectile;
+                if(damage != 0)
+                {
+                    gunProjectile.SetDamage(damage);
+                }
+                if(projectileLifetime != 0)
+                {
+                    gunProjectile.SetLifeTime(projectileLifetime);
+                }
                 Rigidbody projectileRigidBody = gunProjectile.GetComponent<Rigidbody>();
                 if(evenSpread)
                 {

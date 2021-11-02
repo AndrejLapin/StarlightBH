@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] Weapon[] weaponArray;
+    [SerializeField] Transform playerModel;
     Rigidbody myRigidBody;
     public int selectedWeapon = 0;
     const string FIRE1_INPUT = "Fire1";
@@ -15,7 +16,7 @@ public class Player : MonoBehaviour
         myRigidBody = GetComponent<Rigidbody>();
         for(int iterator = 0; iterator < weaponArray.Length; iterator++)
         {
-            weaponArray[iterator].InitWeapon(this);
+            weaponArray[iterator].InitWeapon(gameObject);
         }
     }
 
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
     {
         FireWeapon();
         SwitchWeapon();
+        LookAtCursor();
     }
 
     // framerate independant update
@@ -33,6 +35,13 @@ public class Player : MonoBehaviour
         {
             weaponArray[iterator].FixedUpdate(); // will cause a bug with burst weapons
         }
+    }
+
+    void LookAtCursor()
+    {
+        float mouseXFromCenter = Input.mousePosition.x - Screen.width / 2;
+        float mouseYFromCenter = Input.mousePosition.y - Screen.height / 2;
+        playerModel.transform.rotation = Quaternion.LookRotation(new Vector3(mouseXFromCenter, 0, mouseYFromCenter), Vector3.up);
     }
 
     void FireWeapon()

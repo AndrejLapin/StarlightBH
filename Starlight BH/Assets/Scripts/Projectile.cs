@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {   
+    [SerializeField] float projectileDamage = 10f;
     [SerializeField] float lifeTimeSec = 5f;
     BoxCollider myCollider;
 
@@ -31,8 +32,23 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    public void SetLifeTime(float newLifeTime)
+    {
+        lifeTimeSec = newLifeTime;
+    }
+
+    public void SetDamage(float newDamage)
+    {
+        projectileDamage = newDamage;
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
+        Health healthComponent = collision.GetComponent<Health>();
+        if(healthComponent)
+        {
+            healthComponent.SubtracktHealth(projectileDamage);
+        }
         Destroy(gameObject);
     }
 }
