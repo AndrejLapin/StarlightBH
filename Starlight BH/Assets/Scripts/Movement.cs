@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour
     const string VERTICAL_AXIS_NAME = "Vertical";
     [SerializeField] float maxMoveSpeed = 20f;
     [SerializeField] float acceleration = 0.8f;
+    [SerializeField] ParticleSystem engineParticles;
     /*[SerializeField]*/ float moveSpeed = 0f;
     Rigidbody myRigidBody;
 
@@ -40,11 +41,13 @@ public class Movement : MonoBehaviour
 
         if(hypothenuse != 0)
         {
+            engineParticles.Play();
             moveSpeed += acceleration;
             if(moveSpeed > maxMoveSpeed) moveSpeed = maxMoveSpeed;
         }
         else
         {
+            engineParticles.Stop();
             moveSpeed -= acceleration;
             if(moveSpeed < 0) moveSpeed = 0;
         }
